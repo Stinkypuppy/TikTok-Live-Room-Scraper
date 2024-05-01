@@ -7,66 +7,66 @@ from urllib.parse import urlparse, parse_qs
 
 class TikTokLive:
 
-    @staticmethod
-    # 输入直播间链接，获取直播间id和主播id
-    def get_live_room_info(url):
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0'
-        }
-        response = httpx.request("GET", url, headers=headers)
-        html_content = response.text
-        return html_content
+     @staticmethod
+     # Enter the live broadcast room link and obtain the live broadcast room ID and anchor ID.
+     def get_live_room_info(url):
+         headers = {
+             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0'
+         }
+         response = httpx.request("GET", url, headers=headers)
+         html_content = response.text
+         return html_content
 
-    @staticmethod
-    # 获取直播间id
-    def get_live_room_id(html_content):
-        # 解析html
-        soup = BeautifulSoup(html_content, 'html.parser')
+     @staticmethod
+     # Get the live broadcast room id
+     def get_live_room_id(html_content):
+         # Parse html
+         soup = BeautifulSoup(html_content, 'html.parser')
 
-        # 获取直播间id
-        # 找到具有特定属性的meta标签
-        meta_tag = soup.find('meta', attrs={'data-rh': 'true', 'property': 'al:ios:url'})
+         # Get the live broadcast room id
+         # Find meta tags with specific attributes
+         meta_tag = soup.find('meta', attrs={'data-rh': 'true', 'property': 'al:ios:url'})
 
-        # 获取meta标签的content属性值
-        if meta_tag:
-            content_value = meta_tag['content']
+         # Get the content attribute value of the meta tag
+         if meta_tag:
+             content_value = meta_tag['content']
 
-            # 解析URL以获取room_id参数
-            parsed_url = urlparse(content_value)
-            room_id = parse_qs(parsed_url.query).get('room_id')
+             # Parse the URL to get the room_id parameter
+             parsed_url = urlparse(content_value)
+             room_id = parse_qs(parsed_url.query).get('room_id')
 
-            if room_id:
-                room_id = room_id[0]
-                print(f"room_id: {room_id}")
-                return room_id
-            else:
-                msg = 'room_id parameter not found'
-                return msg
-        else:
-            msg = 'meta tag not found'
-            return msg
+             if room_id:
+                 room_id = room_id[0]
+                 print(f"room_id: {room_id}")
+                 return room_id
+             else:
+                 msg = 'room_id parameter not found'
+                 return msg
+         else:
+             msg = 'meta tag not found'
+             return msg
 
-    @staticmethod
-    # 获取主播id
-    def get_live_anchor_id(html_content):
-        # 解析HTML内容
-        soup = BeautifulSoup(html_content, 'html.parser')
+     @staticmethod
+     # Get anchor id
+     def get_live_anchor_id(html_content):
+         # Parse HTML content
+         soup = BeautifulSoup(html_content, 'html.parser')
 
-        # 找到具有特定id和type属性的<script>标签
-        script_tag = soup.find('script', attrs={'id': 'SIGI_STATE', 'type': 'application/json'})
+         # Find the <script> tag with specific id and type attributes
+         script_tag = soup.find('script', attrs={'id': 'SIGI_STATE', 'type': 'application/json'})
 
-        # 获取<script>标签的内容
-        if script_tag:
-            script_content = script_tag.string
-            script_content = json.loads(script_content)
-            anchor_id = script_content.get('LiveRoom').get('liveRoomUserInfo').get('user').get('id')
-            print(f"anchor_id: {anchor_id}")
-            return anchor_id
-        else:
-            print('script tag not found')
+         # Get the content of the <script> tag
+         if script_tag:
+             script_content = script_tag.string
+             script_content = json.loads(script_content)
+             anchor_id = script_content.get('LiveRoom').get('liveRoomUserInfo').get('user').get('id')
+             print(f"anchor_id: {anchor_id}")
+             return anchor_id
+         else:
+             print('script tag not found')
 
-    @staticmethod
-    # 获取直播间排行榜
+     @staticmethod
+     # Get the live broadcast room rankings
     def get_live_room_ranking(anchor_id, room_id):
         domain = "https://webcast16-normal-useast8.us.tiktokv.com"
         path = "/webcast/ranklist/list/v2/"
@@ -86,15 +86,15 @@ class TikTokLive:
 if __name__ == '__main__':
     TikTokLive = TikTokLive()
 
-    url = input("请输入TikTok直播间分享链接：")
+    url = input("Please enter the TikTok live room sharing link:")
 
-    # 获取直播间信息
+   # Get live broadcast room information
     live_room_info = TikTokLive.get_live_room_info(url)
 
-    # 获取直播间ID
+   # Get the live broadcast room ID
     room_id = TikTokLive.get_live_room_id(live_room_info)
 
-    # 获取主播ID
+   # Get anchor ID
     anchor_id = TikTokLive.get_live_anchor_id(live_room_info)
 
     room_ranking = TikTokLive.get_live_room_ranking(anchor_id, room_id)
