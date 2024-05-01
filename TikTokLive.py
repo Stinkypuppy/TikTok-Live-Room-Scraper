@@ -67,7 +67,7 @@ class TikTokLive:
 
      @staticmethod
      # Get the live broadcast room rankings
-    def get_live_room_ranking(anchor_id, room_id):
+     def get_live_room_ranking(anchor_id, room_id):
         domain = "https://webcast16-normal-useast8.us.tiktokv.com"
         path = "/webcast/ranklist/list/v2/"
         params = f"anchor_id={anchor_id}&room_id={room_id}&rank_type=8&region_type=1&gap_interval=0&use_simple_user=true&iid=7273961106314381102&device_id=7249641987414099499&ac=wifi&channel=googleplay&aid=1233&app_name=musical_ly&version_code=290204&version_name=29.2.4&device_platform=android&ab_version=29.2.4&ssmix=a&device_type=Pixel+6+Pro&device_brand=google&language=en&os_api=33&os_version=13&openudid=97c8d19399a5c330&manifest_version_code=2022902040&resolution=1440*2883&dpi=612&update_version_code=2022902040&_rticket=1694254730171&current_region=US&app_type=normal&sys_region=CN&mcc_mnc=310004&timezone_name=America%2FLos_Angeles&carrier_region_v2=310&residence=US&app_language=en&carrier_region=US&ac2=wifi5g&uoo=0&op_region=US&timezone_offset=-28800&build_number=29.2.4&host_abi=arm64-v8a&locale=en&region=CN&content_language=en%2C&ts=1694254635&cdid=f4e8fcb0-d9f6-4a55-92ae-d16cb01c32df&webcast_sdk_version=2830&webcast_language=en&webcast_locale=zh_CN_%23Hans&effect_sdk_version=13.9.0&current_network_quality_info=%7B%22tcp_rtt%22%3A63%2C%22quic_rtt%22%3A63%2C%22http_rtt%22%3A162%2C%22downstream_throughput_kbps%22%3A5656%2C%22quic_send_loss_rate%22%3A-1%2C%22quic_receive_loss_rate%22%3A-1%2C%22net_effective_connection_type%22%3A4%2C%22video_download_speed%22%3A2762%7D"
